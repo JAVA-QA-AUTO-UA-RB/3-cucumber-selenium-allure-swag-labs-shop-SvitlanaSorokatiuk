@@ -1,9 +1,14 @@
 package org.example.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 
 public class ProductsPage {
 
@@ -14,19 +19,25 @@ public class ProductsPage {
     }
 
     // Buttons of the page
-    public static final By addToCardButton = By.id("add-to-cart-sauce-labs-backpack");
+    public static final By addToCartButton = By.id("add-to-cart-sauce-labs-backpack");
     public static final By sortButton = By.cssSelector("select[data-test=product-sort-container]");
     public static final By dropdownMenu = By.cssSelector("option[value='za']");
     public static final By shoppingCardLink = By.cssSelector("a[data-test=shopping-cart-link]");
+    public static final By productsPageTitle = By.cssSelector("span[data-test=\"title\"]");
+    public static final By burgerMenuButton = By.id("react-burger-menu-btn");
+    public static final By logoutButton = By.cssSelector("a[data-test=\"logout-sidebar-link\"]");
 
     public boolean isProductsPageDisplayed() {
-        WebElement pageTitle = driver.findElement(By.className("title"));
-        return pageTitle.getText().equals("Products");
+        try {
+            WebElement productsPageTitleDisplayed = driver.findElement(productsPageTitle);
+            return productsPageTitleDisplayed.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
-    //
-    public void addToCard() {
-        driver.findElement(addToCardButton).click();
+    public void addToCart() {
+        driver.findElement(addToCartButton).click();
     }
 
     public void sortProducts() {
@@ -36,5 +47,15 @@ public class ProductsPage {
 
     public void goToShoppingCard () {
         driver.findElement(shoppingCardLink).click();
+    }
+
+    public void goToBurgerMenu() {
+        driver.findElement(burgerMenuButton).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Використовується Duration для вказання тайм-ауту
+        WebElement logoutButtonElement = wait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+    }
+
+    public void logoutFromTheSite() {
+        driver.findElement(logoutButton).click();
     }
 }

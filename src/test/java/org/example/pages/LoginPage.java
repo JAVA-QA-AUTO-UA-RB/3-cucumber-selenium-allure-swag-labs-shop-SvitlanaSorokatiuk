@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.openqa.selenium.NoSuchElementException;
 
 public class LoginPage {
 
@@ -17,10 +18,15 @@ public class LoginPage {
     public static final By usernameField = By.cssSelector("input[placeholder='Username']");
     public static final By passwordField = By.cssSelector("input[placeholder='Password']");
     public static final By loginButton = By.id("login-button");
+    public static final By errorMessage = By.cssSelector("h3[data-test=\"error\"]");
 
-    public void isLoginPageDisplayed() {
-        boolean isLoginPageDisplayed = driver.findElements(By.id("user-name")).size() > 0;
-        Assert.assertFalse(isLoginPageDisplayed);
+    public boolean isLoginPageDisplayed() {
+        try {
+            WebElement loginPageDisplayed = driver.findElement(usernameField);
+            return loginPageDisplayed.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     // Authorization in the system
@@ -34,6 +40,15 @@ public class LoginPage {
 
     public void pressLoginButton () {
         driver.findElement(loginButton).click();
+    }
+
+    public boolean checkErrorMessage () {
+        try {
+            WebElement errorMessageActual = driver.findElement(errorMessage);
+            return errorMessageActual.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
 }

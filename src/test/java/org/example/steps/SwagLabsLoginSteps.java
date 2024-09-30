@@ -28,13 +28,13 @@ public class SwagLabsLoginSteps {
         driver.get("https://www.saucedemo.com/");
     }
 
-    @When("the user enters the correct username {string}")
+    @When("the user enters the username {string}")
     public void theUserEntersTheCorrectUsername(String username) {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillUsernameField(username);
     }
 
-    @And("the user enters the correct password {string}")
+    @And("the user enters the password {string}")
     public void theUserEntersTheCorrectPassword(String password) {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillPasswordField(password);
@@ -49,13 +49,56 @@ public class SwagLabsLoginSteps {
     @Then("the page with products is displayed")
     public void thePageWithProductsIsDisplayed() {
         ProductsPage productsPage = new ProductsPage(driver);
-        boolean isDisplayed = productsPage.isProductsPageDisplayed();
-        Assert.assertTrue(isDisplayed);
+        boolean isProductsPageDisplayed = productsPage.isProductsPageDisplayed();
+        Assert.assertTrue(isProductsPageDisplayed);
     }
 
     @But("login page is not displayed")
     public void loginPageIsNotDisplayed() {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.isLoginPageDisplayed();
+        boolean isLoginPageDisplayed = loginPage.isLoginPageDisplayed();
+        Assert.assertFalse(isLoginPageDisplayed);
+        }
+
+    @Then("an error message is displayed")
+    public void anErrorMessageIsDisplayed() {
+        LoginPage loginPage = new LoginPage(driver);
+        boolean isErrorMessageDisplayed = loginPage.checkErrorMessage();
+        Assert.assertTrue(isErrorMessageDisplayed);
     }
-}
+
+    @And("the login page is displayed")
+    public void theLoginFormContinuesToDisplay() {
+        LoginPage loginPage = new LoginPage(driver);
+        boolean isLoginPageDisplayed = loginPage.isLoginPageDisplayed();
+        Assert.assertTrue(isLoginPageDisplayed);
+    }
+
+    @But("the page with products is not displayed")
+    public void thePageWithProductsIsNotDisplayed() {
+        ProductsPage productsPage = new ProductsPage(driver);
+        boolean isProductsPageDisplayed = productsPage.isProductsPageDisplayed();
+        Assert.assertFalse(isProductsPageDisplayed);
+    }
+
+    @And("the user moved to the page with products with correct username {string} and password {string}")
+    public void theUserMovedToThePageWithProductsWithCorrectUsernameAndPassword(String username, String password) {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.fillUsernameField(username);
+        loginPage.fillPasswordField(password);
+        loginPage.pressLoginButton();
+    }
+
+    @When("the user clicks on the burger menu button")
+    public void theUserClicksOnTheBurgerMenuButton() {
+        ProductsPage productsPage = new ProductsPage(driver);
+        productsPage.goToBurgerMenu();
+    }
+
+    @And("the user clicks logout button")
+    public void theUserClicksLogoutButton() {
+        ProductsPage productsPage = new ProductsPage(driver);
+        productsPage.logoutFromTheSite();
+    }
+
+     }

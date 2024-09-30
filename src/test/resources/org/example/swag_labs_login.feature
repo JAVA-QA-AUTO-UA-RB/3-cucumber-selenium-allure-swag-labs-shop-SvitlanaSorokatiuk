@@ -11,28 +11,28 @@ Feature: Swag Labs User Login
 
   Scenario: Log in with correct credentials
     Given the user is on the login page
-    When the user enters the correct username "standard_user"
-    And the user enters the correct password "secret_sauce"
+    When the user enters the username "standard_user"
+    And the user enters the password "secret_sauce"
     And the user presses the login button
     Then the page with products is displayed
     But login page is not displayed
 
   Scenario: Log in with incorrect credentials
     Given the user is on the login page
-    When the user enters the incorrect username "user123"
-    And the user enters the incorrect password "123"
+    When the user enters the username "user123"
+    And the user enters the password "123"
     And the user presses the login button
     Then an error message is displayed
-    And the login form continues to display
+    And the login page is displayed
     But the page with products is not displayed
 
   Scenario: Log out of the site
-    Given the user is logged in the system
-    And  the user is on the page with products
-    When the user cliks on the burger menu button
+    Given the user is on the login page
+    And the user moved to the page with products with correct username "standard_user" and password "secret_sauce"
+    When the user clicks on the burger menu button
     And the user clicks logout button
     Then the page with products is not displayed
-    And the login form is displayed
+    And the login page is displayed
 
 
 

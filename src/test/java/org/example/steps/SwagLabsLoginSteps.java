@@ -6,7 +6,10 @@ import org.example.pages.LoginPage;
 import org.example.pages.ProductsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 
 public class SwagLabsLoginSteps {
 
@@ -87,6 +90,7 @@ public class SwagLabsLoginSteps {
         loginPage.fillUsernameField(username);
         loginPage.fillPasswordField(password);
         loginPage.pressLoginButton();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @When("the user clicks on the burger menu button")

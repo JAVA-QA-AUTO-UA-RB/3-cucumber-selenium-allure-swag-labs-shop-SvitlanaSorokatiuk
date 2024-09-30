@@ -7,7 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import java.time.Duration;
 
+import java.security.PublicKey;
 import java.time.Duration;
 
 public class ProductsPage {
@@ -16,6 +18,7 @@ public class ProductsPage {
 
     public ProductsPage (WebDriver driver) {
         this.driver = driver;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     // Buttons of the page
@@ -36,9 +39,11 @@ public class ProductsPage {
         }
     }
 
-    public void addToCart() {
-        driver.findElement(addToCartButton).click();
+    public void addToCart(String productName) {
+        String xpath = "//div[text()='" + productName + "']//following-sibling::button";
+        driver.findElement(By.xpath(xpath)).click();
     }
+
 
     public void sortProducts() {
         driver.findElement(sortButton).click();
@@ -51,7 +56,7 @@ public class ProductsPage {
 
     public void goToBurgerMenu() {
         driver.findElement(burgerMenuButton).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Використовується Duration для вказання тайм-ауту
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement logoutButtonElement = wait.until(ExpectedConditions.elementToBeClickable(logoutButton));
     }
 
